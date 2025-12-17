@@ -3,7 +3,7 @@ const { Pool } = require('pg'); // Nhớ chạy lệnh: npm install pg
 const app = express();
 
 // 1. Dán link ở tab Internal (từ Render) vào đây
-const connectionString = 'postgresql://my_database_cay4_user:t2chs6B1vmZqGYgUQx3ZjAxupMBpaiwk@dpg-d50oarggjchc73chchb0-a/my_database_cay4'; 
+const connectionString = process.env.DATABASE_URL ||'postgresql://my_database_cay4_user:t2chs6B1vmZqGYgUQx3ZjAxupMBpaiwk@dpg-d50oarggjchc73chchb0-a/my_database_cay4'; 
 
 const pool = new Pool({
   connectionString: connectionString,

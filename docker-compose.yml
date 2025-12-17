@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # 1. Khởi tạo Database Postgres
+  db-postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user_nguoidung
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: db_bai_tap
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # PHẢI NẰM Ở ĐÂY: Để Postgres biết lấy file SQL nào để khởi tạo bảng
+      - ./init-db:/docker-entrypoint-initdb.d
+
+  # 2. Khởi tạo App Node.js của bạn
+  node-app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db-postgres
+    environment:
+      DATABASE_URL: postgres://user_nguoidung:password123@db-postgres:5432/db_bai_tap
+
+volumes:
+  pgdata: # Chỉ cần khai báo tên volume ở đây, không thêm đường dẫn ./init-db vào đây
